@@ -23,3 +23,8 @@ before_install:
 
 script:
   - bin/ci-pecl-install swoole
+
+branches:
+  #Don't build tags
+  except:
+  - /^v\d/
