@@ -1,22 +1,5 @@
-# Changelog
+# Change Logs
 
-All notable changes to `ci-pecl-cacher` will be documented in this file.
-
-Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
-
-## NEXT - YYYY-MM-DD
-
-### Added
-- Nothing
-
-### Deprecated
-- Nothing
-
-### Fixed
-- Nothing
-
-### Removed
-- Nothing
-
-### Security
-- Nothing
+## [v1.0.0](https://github.com/phwoolcon/ci-pecl-cacher/releases/tag/v1.0.0) (2017-11-13)
+#### Features:
+* Initial release
