@@ -17,5 +17,8 @@ cache:
     - $HOME/.composer/cache
     - $HOME/pecl_cache
 
+before_install:
+  - chmod +x bin/ci-pecl-install
+
 script:
   - bin/ci-pecl-install swoole
