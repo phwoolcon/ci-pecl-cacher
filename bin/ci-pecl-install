@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+
+function error {
+    echo $(date +%H:%M:%S) $1 >&2
+    exit 1
+}
+
+function info
+{
+    echo $(date +%H:%M:%S) $1
+}
+
+MODULE=$1
+SKIP_UPDATE=$2
+
+if [[ ! ${MODULE} ]]; then
+    error "Module name not specified"
+fi
+
+function getExtDir()
+{
+    php -r 'echo ini_get("extension_dir"), PHP_EOL;'
+}
+
+function getPhpVersion()
+{
+    if [[ $(command -v phpenv) ]]; then
+        phpenv version-name
+        return 0
+    fi
+    php -r '$ver = explode(".", PHP_VERSION); echo $ver[0], ".", $ver[1], PHP_EOL;'
+}
+
+function applyLatestCachedSo()
+{
+    info "No need to update ${MODULE}"
+    info "Applying ${LATEST_SO}..."
+    cp "${LATEST_SO}" "${TARGET_SO}"
+    phpenv config-add "${CACHED_INI_FILE}"
+    phpenv rehash
+    echo Done
+    php --ri ${MODULE}
+}
+info "Preparing variables..."
+PHP_VER=$(getPhpVersion)
+EXT_DIR=$(getExtDir)
+TARGET_SO=${EXT_DIR}/${MODULE}.so
+CACHE_DIR=${HOME}/pecl_cache/${PHP_VER}
+LATEST_SO=${CACHE_DIR}/${MODULE}.so
+CACHED_VER_FILE=${CACHE_DIR}/${MODULE}.ver
+CACHED_INI_FILE=${CACHE_DIR}/${MODULE}.ini
+
+mkdir -p ${CACHE_DIR}
+
+if [[ ${SKIP_UPDATE} && -f ${LATEST_SO} ]]; then
+    info "Skipping updates"
+    applyLatestCachedSo
+    exit 0
+fi
+
+if [[ -f ${CACHED_VER_FILE} ]]; then
+    info "Cache detected: ${CACHE_DIR}"
+    ls -la --color=auto "${CACHE_DIR}"
+
+    CACHED_VER=$(cat ${CACHED_VER_FILE})
+    info "Cached version: ${CACHED_VER}"
+
+    info "Checking remote version..."
+    REMOTE_MODULE_VER_ARRAY=( $(pecl remote-info ${MODULE} | grep 'Latest') )
+    REMOTE_MODULE_VER=${REMOTE_MODULE_VER_ARRAY[1]}
+    info "Remote version: ${REMOTE_MODULE_VER}"
+
+    if [[ ${CACHED_VER} == ${REMOTE_MODULE_VER} ]]; then
+        applyLatestCachedSo
+        exit 0
+    fi
+fi
+
+info "Installing new version..."
+echo '>' pecl install ${MODULE}
+
+printf "\n" | pecl install ${MODULE} || error "Installation failed"
+
+MODULE_VER_ARRAY=( $(pecl info ${MODULE} | grep 'Release Version') )
+MODULE_VER=${MODULE_VER_ARRAY[2]}
+cp "${TARGET_SO}" "${LATEST_SO}"
+cp "${TARGET_SO}" "${LATEST_SO}-${MODULE_VER}"
+echo ${MODULE_VER} > "${CACHED_VER_FILE}"
+echo "extension=${MODULE}.so" > ${CACHED_INI_FILE}
+
+info "Installed ${MODULE} ${MODULE_VER}"

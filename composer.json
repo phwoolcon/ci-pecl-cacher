@@ -1,0 +1,31 @@
+{
+    "name": "phwoolcon/ci-pecl-cacher",
+    "type": "library",
+    "description": "PECL installing script with cache for Travis CI",
+    "keywords": [
+        "phwoolcon",
+        "ci",
+        "pecl cache"
+    ],
+    "homepage": "https://github.com/phwoolcon/ci-pecl-cacher",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Christopher CHEN",
+            "email": "fishdrowned@gmail.com",
+            "homepage": "https://github.com/Fishdrowned",
+            "role": "Developer"
+        }
+    ],
+    "bin": [
+        "bin/ci-pecl-install"
+    ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
