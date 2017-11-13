@@ -18,6 +18,7 @@ cache:
     - $HOME/pecl_cache
 
 before_install:
+  - pecl channel-update pecl.php.net
   - chmod +x bin/ci-pecl-install
 
 script:
