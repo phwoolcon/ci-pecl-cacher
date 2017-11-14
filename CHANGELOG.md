@@ -3,6 +3,7 @@
 ## [v1.0.1](https://github.com/phwoolcon/ci-pecl-cacher/releases/tag/v1.0.1) (2017-11-14)
 #### Features:
 * Adjust wording
+* Skip update if last check is shorter than 1 day
 #### Tests:
 * Declare php versions in string
 
