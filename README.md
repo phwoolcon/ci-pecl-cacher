@@ -27,7 +27,7 @@ cache:
 To install PECL extension:
 ```yaml
 before_install:
-  - composer require phwoolcon/ci-pecl-cacher
+  - composer require phwoolcon/ci-pecl-cacher -n
   # Cache till new version
   - vendor/bin/ci-pecl-install swoole
   # Cache and skip version check
