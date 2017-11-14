@@ -34,11 +34,11 @@ function getPhpVersion()
 function applyLatestCachedSo()
 {
     info "No need to update ${MODULE}"
-    info "Applying ${LATEST_SO}..."
+    info "Restoring ${LATEST_SO} to ${TARGET_SO}..."
     cp "${LATEST_SO}" "${TARGET_SO}"
     phpenv config-add "${CACHED_INI_FILE}"
     phpenv rehash
-    echo Done
+    info "Done"
     php --ri ${MODULE}
 }
 info "Preparing variables..."
@@ -60,7 +60,7 @@ fi
 
 if [[ -f ${CACHED_VER_FILE} ]]; then
     info "Cache detected: ${CACHE_DIR}"
-    ls -la --color=auto "${CACHE_DIR}"
+    ls -la --color=auto "${CACHE_DIR}"/${MODULE}*
 
     CACHED_VER=$(cat ${CACHED_VER_FILE})
     info "Cached version: ${CACHED_VER}"
@@ -77,7 +77,7 @@ if [[ -f ${CACHED_VER_FILE} ]]; then
 fi
 
 info "Installing new version..."
-echo '>' pecl install ${MODULE}
+echo "> pecl install ${MODULE}"
 
 printf "\n" | pecl install ${MODULE} || error "Installation failed"
 
