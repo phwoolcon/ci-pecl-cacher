@@ -1,9 +1,9 @@
 # phwoolcon/ci-pecl-cacher
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
-[![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-travis]][link-travis]
 [![Total Downloads][ico-downloads]][link-downloads]
+[![Software License][ico-license]](LICENSE.md)
 
 PECL installing script with cache for Travis CI
 
