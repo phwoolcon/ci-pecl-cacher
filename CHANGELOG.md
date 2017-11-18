@@ -1,6 +1,6 @@
 # Change Logs
 
-## [v1.0.2](https://github.com/phwoolcon/ci-pecl-cacher/releases/tag/v1.0.2) (2017-11-xx)
+## [v1.0.2](https://github.com/phwoolcon/ci-pecl-cacher/releases/tag/v1.0.2) (2017-11-18)
 #### Features:
 * Mark `bin/ci-pecl-install` as executable
 
