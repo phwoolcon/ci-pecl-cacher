@@ -34,7 +34,7 @@ before_install:
   - vendor/bin/ci-pecl-install swoole skip-update
 ```
 
-See [result](https://travis-ci.org/phwoolcon/ci-pecl-cacher/jobs/303924272).
+See [result](https://travis-ci.org/phwoolcon/ci-pecl-cacher/jobs/303924272#L472).
 
 ## Change log
 
