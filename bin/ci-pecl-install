@@ -12,9 +12,14 @@ function info
 
 MODULE=$1
 SKIP_UPDATE=$2
+SO_NAME=$3
 
 if [[ ! ${MODULE} ]]; then
     error "Module name not specified"
+fi
+
+if [[ ! ${SO_NAME} ]]; then
+  SO_NAME=${MODULE}
 fi
 
 function getExtDir()
@@ -44,9 +49,9 @@ function applyLatestCachedSo()
 info "Preparing variables..."
 PHP_VER=$(getPhpVersion)
 EXT_DIR=$(getExtDir)
-TARGET_SO=${EXT_DIR}/${MODULE}.so
+TARGET_SO=${EXT_DIR}/${SO_NAME}.so
 CACHE_DIR=${HOME}/pecl_cache/${PHP_VER}
-LATEST_SO=${CACHE_DIR}/${MODULE}.so
+LATEST_SO=${CACHE_DIR}/${SO_NAME}.so
 CACHED_VER_FILE=${CACHE_DIR}/${MODULE}.ver
 CACHED_INI_FILE=${CACHE_DIR}/${MODULE}.ini
 
@@ -92,6 +97,6 @@ MODULE_VER=${MODULE_VER_ARRAY[2]}
 cp "${TARGET_SO}" "${LATEST_SO}"
 cp "${TARGET_SO}" "${LATEST_SO}-${MODULE_VER}"
 echo ${MODULE_VER} > "${CACHED_VER_FILE}"
-echo "extension=${MODULE}.so" > ${CACHED_INI_FILE}
+echo "extension=${SO_NAME}.so" > ${CACHED_INI_FILE}
 
 info "Installed ${MODULE} ${MODULE_VER}"
