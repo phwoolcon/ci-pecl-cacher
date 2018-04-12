@@ -21,7 +21,7 @@ before_install:
   - pecl channel-update pecl.php.net
 
 script:
-  - bin/ci-pecl-install swoole
+  - bin/ci-pecl-install grpc
 
 branches:
   #Don't build tags

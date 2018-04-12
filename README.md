@@ -33,9 +33,9 @@ before_install:
   # Cache and skip version check
   - vendor/bin/ci-pecl-install swoole skip-update
   # Cache a package that has a different .so name from the package name
-  - vendor/bin/ci-pecl-install libsodium '' sodium
+  - vendor/bin/ci-pecl-install libsodium sodium
   # Cache a specific version of a package (.so name required)
-  - vendor/bin/ci-pecl-install grpc-1.9.0 '' grpc
+  - vendor/bin/ci-pecl-install grpc-1.9.0 grpc
 ```
 
 See [result](https://travis-ci.org/phwoolcon/ci-pecl-cacher/jobs/303924272#L472).

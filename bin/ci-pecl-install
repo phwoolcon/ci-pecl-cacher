@@ -11,8 +11,20 @@ function info
 }
 
 MODULE=$1
-SKIP_UPDATE=$2
-SO_NAME=$3
+
+SKIP_UPDATE=""
+case $2 in
+    "skip-update")
+        SKIP_UPDATE=$2
+        SO_NAME=$3
+        ;;
+    "")
+        SO_NAME=$3
+        ;;
+    *)
+        SO_NAME=$2
+        ;;
+esac
 
 if [[ ! ${MODULE} ]]; then
     error "Module name not specified"
