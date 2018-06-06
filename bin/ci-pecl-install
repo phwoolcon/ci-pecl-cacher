@@ -69,34 +69,34 @@ CACHED_INI_FILE=${CACHE_DIR}/${MODULE}.ini
 
 mkdir -p ${CACHE_DIR}
 
-if [[ ${SKIP_UPDATE} && -f ${LATEST_SO} ]]; then
-    info "Skipping updates"
-    applyLatestCachedSo
-    exit 0
-fi
+if [[ -f ${CACHED_VER_FILE} && -f ${LATEST_SO} && -f ${CACHED_INI_FILE} ]]; then
+  if [[ ${SKIP_UPDATE} ]]; then
+      info "Skipping updates"
+      applyLatestCachedSo
+      exit 0
+  fi
 
-if [[ -f ${CACHED_VER_FILE} ]]; then
-    info "Cache detected: ${CACHE_DIR}"
-    ls -la --color=auto "${CACHE_DIR}"/${MODULE}*
+  info "Cache detected: ${CACHE_DIR}"
+  ls -la --color=auto "${CACHE_DIR}"/${MODULE}*
 
-    if [ $(stat --format=%Y ${CACHED_VER_FILE}) -ge $(( `date +%s` - 86400 )) ]; then
-        applyLatestCachedSo
-        exit 0
-    fi
+  if [ $(stat --format=%Y ${CACHED_VER_FILE}) -ge $(( `date +%s` - 86400 )) ]; then
+      applyLatestCachedSo
+      exit 0
+  fi
 
-    CACHED_VER=$(cat ${CACHED_VER_FILE})
-    info "Cached version: ${CACHED_VER}"
+  CACHED_VER=$(cat ${CACHED_VER_FILE})
+  info "Cached version: ${CACHED_VER}"
 
-    info "Checking remote version..."
-    REMOTE_MODULE_VER_ARRAY=( $(pecl remote-info ${MODULE} | grep 'Latest') )
-    REMOTE_MODULE_VER=${REMOTE_MODULE_VER_ARRAY[1]}
-    info "Remote version: ${REMOTE_MODULE_VER}"
-    touch ${CACHED_VER_FILE}
+  info "Checking remote version..."
+  REMOTE_MODULE_VER_ARRAY=( $(pecl remote-info ${MODULE} | grep 'Latest') )
+  REMOTE_MODULE_VER=${REMOTE_MODULE_VER_ARRAY[1]}
+  info "Remote version: ${REMOTE_MODULE_VER}"
+  touch ${CACHED_VER_FILE}
 
-    if [[ ${CACHED_VER} == ${REMOTE_MODULE_VER} ]]; then
-        applyLatestCachedSo
-        exit 0
-    fi
+  if [[ ${CACHED_VER} == ${REMOTE_MODULE_VER} ]]; then
+      applyLatestCachedSo
+      exit 0
+  fi
 fi
 
 info "Installing new version..."
