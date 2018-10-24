@@ -5,7 +5,7 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Software License][ico-license]](LICENSE.md)
 
-PECL installing script with cache for Travis CI
+PECL installation script with cache for Travis CI
 
 ## Install
 Via Composer
